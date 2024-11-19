@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "111458068547",
+    "firebase_url": "https://whaletasks-default-rtdb.firebaseio.com",
+    "project_id": "whaletasks",
+    "storage_bucket": "whaletasks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111458068547:android:c33a5f10e7fbfbfc484cf6",
+        "android_client_info": {
+          "package_name": "com.corcho.whaletasks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111458068547-rf6cvdbf7ferf59jh2joq7gqb5gneh1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLcSi9YFhWh1EfyWIDZJqcl2fXRcCxoWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111458068547-rf6cvdbf7ferf59jh2joq7gqb5gneh1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111458068547:android:f219b09b276dd221484cf6",
+        "android_client_info": {
+          "package_name": "com.example.flutter_todo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111458068547-rf6cvdbf7ferf59jh2joq7gqb5gneh1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLcSi9YFhWh1EfyWIDZJqcl2fXRcCxoWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111458068547-rf6cvdbf7ferf59jh2joq7gqb5gneh1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
