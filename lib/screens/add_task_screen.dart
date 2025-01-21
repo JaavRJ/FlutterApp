@@ -6,7 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:intl/intl.dart';
 import '../../model/models.dart';
-import '../providers/task_provider.dart'; // Asegúrate de importar tu proveedor de tareas
+// Asegúrate de importar tu proveedor de tareas
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});

@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "111458068547-asnmc36h7jhlnj0944nrlcvdqtbv6tda.apps.googleusercontent.com",
+          "client_id": "111458068547-q29d3rspgvnonqh3q2uosnqmnitg941f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.flutter_todo_app",
-            "certificate_hash": "e97dcc0dcb493f21e7807d86d7bade8e63c32269"
+            "certificate_hash": "3d5376d6811bfa134b6af3162dd9674d4c9cb0e0"
           }
         },
         {

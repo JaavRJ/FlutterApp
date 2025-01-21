@@ -158,10 +158,10 @@ class _AddDoodleScreen extends State<AddDoodleScreen> {
         ),
         // Generate image
         floatingActionButton: FloatingActionButton(
+          onPressed: renderAndDisplayImage,
           child: const Icon(
             Ionicons.image_outline,
           ),
-          onPressed: renderAndDisplayImage,
         ),
         body: Stack(
         children: [

@@ -69,7 +69,7 @@ class _TaskListState extends State<TaskList> with AutomaticKeepAliveClientMixin<
         title: const Text('Tareitas'),
       ),
       body: _tasks.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _tasks.length,
               itemBuilder: (context, index) {

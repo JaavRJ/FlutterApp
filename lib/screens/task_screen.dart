@@ -37,7 +37,7 @@ class TaskScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             Column(
               children: [
@@ -52,15 +52,15 @@ class TaskScreen extends StatelessWidget {
         ),
           floatingActionButton: SpeedDial(
             animatedIcon: AnimatedIcons.add_event,
-            backgroundColor: Color.fromRGBO(178, 172, 231, 1),
+            backgroundColor: const Color.fromRGBO(178, 172, 231, 1),
             children: [
               SpeedDialChild(
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
                 label: 'Agregar Tarea',
                 onTap: () => _addTask(context),
               ),
               SpeedDialChild(
-                child: Icon(Icons.draw),
+                child: const Icon(Icons.draw),
                 label: 'Agregar Doodle',
                 onTap: () => _addDoodle(context),
               ),
@@ -72,13 +72,13 @@ class TaskScreen extends StatelessWidget {
 
   void _addTask(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => AddTaskScreen(),
+      builder: (context) => const AddTaskScreen(),
     ));
   } 
   
   void _addDoodle(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => AddDoodleScreen(),
+      builder: (context) => const AddDoodleScreen(),
     ));
   }
 }
