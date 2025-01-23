@@ -6,9 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:provider/provider.dart';
-import '../model/models.dart'; // Asegúrate de usar la ruta correcta para el modelo Task
-import '../screens/task_detail_screen.dart'; // Asegúrate de usar la ruta correcta para la pantalla de detalles
-import '../providers/task_provider.dart'; // Asegúrate de usar la ruta correcta para el proveedor
+import '../model/models.dart'; 
+import '../screens/task_detail_screen.dart'; 
+import '../providers/task_provider.dart'; 
 
 class TaskList extends StatefulWidget {
   const TaskList({super.key});
