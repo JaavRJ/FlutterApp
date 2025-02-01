@@ -76,7 +76,7 @@ class _CalendarScreenState extends State<CalendarScreen>  with AutomaticKeepAliv
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calendario'),
+        title: const Text('Calendar'),
       ),
       body: Column(
         children: [
