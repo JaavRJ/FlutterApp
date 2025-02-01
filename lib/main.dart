@@ -28,7 +28,7 @@ void main() async {
 
     runApp(
       ChangeNotifierProvider(
-        create: (context) => TaskProvider(),
+        create: (context) => TaskProvider()..loadThemeColor(), // Cargar el color del tema aquí
         child: const MyApp(),
       ),
     );
@@ -37,14 +37,17 @@ void main() async {
   }
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+        final themeColor = Provider.of<TaskProvider>(context).themeColor;
     return MaterialApp(
       title: 'WhaleTasks',
       theme: ThemeData(
+        primaryColor: themeColor,
         primarySwatch: Colors.green,
       ),
       home: AuthScreen(),

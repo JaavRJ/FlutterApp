@@ -2,6 +2,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart'; // Importa el paquete speed_dial
+import 'package:provider/provider.dart';
+import 'package:whaletasks/providers/task_provider.dart';
+import 'package:whaletasks/screens/settings_screen.dart';
 import 'add_task_screen.dart';
 import 'add_doodle_screen.dart';
 import '../widgets/plant_status.dart';
@@ -10,15 +13,34 @@ import 'auth_screen.dart';
 import 'calendar_screen.dart'; // Importar la pantalla del calendario
 import 'enter_subjects_screen.dart'; // Importar la pantalla de ingreso de materias
 
-class TaskScreen extends StatelessWidget {
+class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Llamar a la función que verifica si el usuario es nuevo
-    _checkIfNewUser(context);
+  _TaskScreenState createState() => _TaskScreenState();
+}
 
-    return DefaultTabController(
+class _TaskScreenState extends State<TaskScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _loadTheme();
+    _checkIfNewUser(context);
+  }
+
+  Future<void> _loadTheme() async {
+    final taskProvider = Provider.of<TaskProvider>(context, listen: false);
+    try {
+      await taskProvider.loadThemeColor();
+    } catch (e) {
+      print('Error loading theme: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+  
+     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
@@ -27,7 +49,7 @@ class TaskScreen extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color.fromRGBO(255, 255, 255, 1)),
           ),
           elevation: 2,
-          backgroundColor: const Color.fromARGB(255, 248, 196, 140), // Moderno color púrpura
+          backgroundColor: context.watch<TaskProvider>().themeColor ?? const Color.fromARGB(255, 248, 196, 140),
           bottom: const TabBar(
             labelColor: Colors.white,
             unselectedLabelColor: Colors.white70,
@@ -39,18 +61,8 @@ class TaskScreen extends StatelessWidget {
               Tab(icon: Icon(Icons.eco), text: 'Plant'),
             ],
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.exit_to_app, color: Color.fromRGBO(67, 67, 67, 1),),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => AuthScreen()),
-                );
-              },
-            ),
-          ],
         ),
+        drawer: _buildDrawer(context), // Drawer agregado aquí
         body: const TabBarView(
           children: [
             // Lista de tareas y estado de la planta
@@ -60,7 +72,7 @@ class TaskScreen extends StatelessWidget {
                   child: TaskList(),
                 ),
                 SizedBox(height: 16), // Espaciado entre los widgets
-                PlantStatus(),
+                // PlantStatus(),
               ],
             ),
             // Pantalla de calendario
@@ -71,7 +83,7 @@ class TaskScreen extends StatelessWidget {
         ),
         floatingActionButton: SpeedDial(
           animatedIcon: AnimatedIcons.menu_close,
-          backgroundColor: const Color.fromARGB(255, 248, 196, 140), // Color consistente con la barra de app
+          backgroundColor: context.watch<TaskProvider>().themeColor ?? const Color.fromARGB(255, 248, 196, 140),
           foregroundColor: const Color.fromARGB(255, 255, 255, 255),
           overlayColor: Colors.black,
           overlayOpacity: 0.5,
@@ -92,7 +104,7 @@ class TaskScreen extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: const Color(0xFFF9F9F9), // Fondo claro para contraste
+        backgroundColor: const Color(0xFFF9F9F9),
       ),
     );
   }
@@ -128,4 +140,67 @@ class TaskScreen extends StatelessWidget {
       builder: (context) => const AddDoodleScreen(),
     ));
   }
+
+  // Función para construir el Drawer con opciones comunes
+  Widget _buildDrawer(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    String name = "Guest";
+    String email = "guest@example.com";
+    String photoURL = "";
+
+    if (user != null) {
+      name = user.displayName ?? "Guest"; 
+      email = user.email ?? "guest@example.com"; 
+      photoURL = user.photoURL ?? "";
+    }
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+           UserAccountsDrawerHeader(
+            accountName:  Text(name), 
+            accountEmail: Text(email), 
+             currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: photoURL.isNotEmpty ? NetworkImage(photoURL) : null,
+              child: photoURL.isEmpty ? const Icon(Icons.person, color: Colors.black) : null, 
+            ),
+            decoration:  BoxDecoration(
+              color: context.watch<TaskProvider>().themeColor ?? const Color.fromARGB(255, 248, 196, 140),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.list),
+            title: const Text('Tasks'),
+            onTap: () {
+              
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Settings'), // Agregar una opción de configuración
+            onTap: () {
+               Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingsScreen()), // Navegar a la pantalla de configuración
+            );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Sign Out'),
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => AuthScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+
 }

@@ -4,8 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class TaskProvider with ChangeNotifier {
+  
   List<Task> _tasks = [];
   final Plant _plant = Plant(healthLevel: 100, waterLevel: 100, rewardPoints: 0, lastWatered: DateTime.now());
+    Color? _themeColor;
+
 
   List<Task> get tasks => _tasks;
   Plant get plant => _plant;
@@ -15,10 +18,20 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setTheme(Color color) {
+    _themeColor = color;
+    notifyListeners();
+  }
+
   void addTask(Task task) {
     _tasks.add(task);
     notifyListeners();
   }
+
+
+
+  
+    Color get themeColor => _themeColor ?? const Color.fromARGB(255, 248, 196, 140);
 
   Future<void> completeTask(String taskId) async {
     print('si estamos recibiendo el llamado: $taskId');
@@ -80,4 +93,45 @@ class TaskProvider with ChangeNotifier {
           .set(_plant.toMap());
     }
   }
-}
+
+
+
+  // Función para cambiar el color del tema
+  Future<void> changeThemeColor(Color color) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+
+      // Actualizar el color del tema en Firebase
+      await userRef.update({
+        'themeColor': color.value, // Guardar el valor del color (hexadecimal)
+      });
+
+      _themeColor = color;
+      print(_themeColor);
+      notifyListeners(); // Notificar a los oyentes (para que se redibuje la UI)
+    }
+  }
+
+  // Cargar el color del tema desde Firebase
+Future<void> loadThemeColor() async {
+  print('Si se llama la función loadTheme');
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+    final snapshot = await userRef.get();
+
+    if (snapshot.exists && snapshot.value != null) {
+      // Convertir snapshot.value en un Map<String, dynamic> correctamente
+      final Map<String, dynamic> userData = Map<String, dynamic>.from(snapshot.value as Map);
+      
+      if (userData.containsKey('themeColor')) {
+        final int colorValue = userData['themeColor'];
+        _themeColor = Color(colorValue); // Convertir el valor a Color
+        print(colorValue);
+        print(_themeColor);
+        notifyListeners(); // Notificar a los listeners para actualizar la UI
+      }
+    }
+  }
+}}

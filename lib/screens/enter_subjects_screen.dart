@@ -66,34 +66,32 @@ class _EnterSubjectsScreenState extends State<EnterSubjectsScreen> {
                 onPressed: () async {
                   final user = FirebaseAuth.instance.currentUser;
                   if (user != null && _subjects.isNotEmpty) {
-  final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+                    final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
 
-  // Recuperar los datos actuales del usuario
-  final snapshot = await userRef.once();
-  
-  // Manejar casos donde no hay datos (snapshot.snapshot.value == null)
-  Map<String, dynamic> currentUserData = {};
-  if (snapshot.snapshot.value != null) {
-    // Convertir el LinkedMap a Map<String, dynamic>
-    currentUserData = Map<String, dynamic>.from(snapshot.snapshot.value as Map);
-  }
+                    // Recuperar los datos actuales del usuario
+                    final snapshot = await userRef.once();
+                    
+                    // Manejar casos donde no hay datos (snapshot.snapshot.value == null)
+                    Map<String, dynamic> currentUserData = {};
+                    if (snapshot.snapshot.value != null) {
+                      // Convertir el LinkedMap a Map<String, dynamic>
+                      currentUserData = Map<String, dynamic>.from(snapshot.snapshot.value as Map);
+                    }
 
-  // Si ya existe el campo 'subjects', agregar las nuevas materias
-  if (currentUserData.containsKey('subjects')) {
-    List<dynamic> currentSubjects = List.from(currentUserData['subjects'] ?? []);
-    currentSubjects.addAll(_subjects); // Agregar las nuevas materias
-    currentUserData['subjects'] = currentSubjects; // Actualizar el campo 'subjects'
-  } else {
-    // Si no existe el campo 'subjects', crearlo
-    currentUserData['subjects'] = _subjects;
-  }
+                    // Si ya existe el campo 'subjects', agregar las nuevas materias
+                    if (currentUserData.containsKey('subjects')) {
+                      List<dynamic> currentSubjects = List.from(currentUserData['subjects'] ?? []);
+                      currentSubjects.addAll(_subjects); // Agregar las nuevas materias
+                      currentUserData['subjects'] = currentSubjects; // Actualizar el campo 'subjects'
+                    } else {
+                      // Si no existe el campo 'subjects', crearlo
+                      currentUserData['subjects'] = _subjects;
+                    }
 
-  // Actualizar solo el campo 'subjects' sin sobrescribir los demás
-  await userRef.update({
-    'subjects': currentUserData['subjects'],
-  });
-
-
+                    // Actualizar solo el campo 'subjects' sin sobrescribir los demás
+                    await userRef.update({
+                      'subjects': currentUserData['subjects'],
+                    });
 
                     // Redirigir a la pantalla principal o siguiente
                     Navigator.pushReplacement(
