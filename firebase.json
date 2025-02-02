@@ -1,1 +1,39 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"whaletasks","appId":"1:111458068547:android:f219b09b276dd221484cf6","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"whaletasks","configurations":{"android":"1:111458068547:android:f219b09b276dd221484cf6","ios":"1:111458068547:ios:762289a594edfe73484cf6","macos":"1:111458068547:ios:762289a594edfe73484cf6","web":"1:111458068547:web:fda3f5fc99ff343c484cf6","windows":"1:111458068547:web:2b9bc9895f86c70a484cf6"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "whaletasks",
+          "appId": "1:111458068547:android:f219b09b276dd221484cf6",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "whaletasks",
+          "configurations": {
+            "android": "1:111458068547:android:f219b09b276dd221484cf6",
+            "ios": "1:111458068547:ios:762289a594edfe73484cf6",
+            "macos": "1:111458068547:ios:762289a594edfe73484cf6",
+            "web": "1:111458068547:web:fda3f5fc99ff343c484cf6",
+            "windows": "1:111458068547:web:2b9bc9895f86c70a484cf6"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

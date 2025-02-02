@@ -37,6 +37,24 @@ class _TaskScreenState extends State<TaskScreen> {
     }
   }
 
+  // Verificar si el usuario es nuevo y redirigirlo a la pantalla de ingreso de materias
+  Future<void> _checkIfNewUser(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final userRef = FirebaseDatabase.instance.ref('users/${user.uid}/subjects');
+      final snapshot = await userRef.get();
+
+      if (snapshot.value == null) {
+        // El usuario no tiene materias, lo redirigimos a la pantalla para ingresarlas
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const EnterSubjectsScreen()),
+        );
+      }
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
   
@@ -109,23 +127,7 @@ class _TaskScreenState extends State<TaskScreen> {
     );
   }
 
-  // Verificar si el usuario es nuevo y redirigirlo a la pantalla de ingreso de materias
-  Future<void> _checkIfNewUser(BuildContext context) async {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      final userRef = FirebaseDatabase.instance.ref('users/${user.uid}/subjects');
-      final snapshot = await userRef.once();
-
-      if (snapshot.snapshot.value == null) {
-        // El usuario no tiene materias, lo redirigimos a la pantalla para ingresarlas
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const EnterSubjectsScreen()),
-        );
-      }
-    }
-  }
+  
 
   // Navegar a la pantalla de agregar tarea
   void _addTask(BuildContext context) {

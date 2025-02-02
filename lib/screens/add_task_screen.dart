@@ -39,20 +39,36 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   // Método para cargar las materias del usuario desde Firebase
   Future<void> _loadSubjects() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final userRef = FirebaseDatabase.instance.ref('users/${user.uid}/subjects');
-      final snapshot = await userRef.once();
-      if (snapshot.snapshot.value != null) {
-        setState(() {
-          _subjects = List<String>.from(snapshot.snapshot.value as List<dynamic>);
-          if (_subjects.isNotEmpty) {
-            _subject = _subjects[0]; // Establecer la primera materia como predeterminada
-          }
-        });
-      }
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final userRef = FirebaseDatabase.instance.ref('users/${user.uid}/subjects');
+    final snapshot = await userRef.get();
+
+    if (snapshot.value != null) {
+      final data = snapshot.value;
+      debugPrint('Raw subjects data from Firebase: $data'); // Para depuración
+
+      setState(() {
+        if (data is List) {
+          _subjects = List<String>.from(data);
+        } else if (data is Map) {
+          _subjects = data.values.map((e) => e.toString()).toList();
+        }
+
+        if (_subjects.isNotEmpty) {
+          _subject = _subjects.first;
+        }
+      });
+    } else {
+      debugPrint('No subjects found in Firebase.');
+      setState(() {
+        _subjects = [];
+        _subject = null;
+      });
     }
   }
+}
+
 
   Future<void> _selectDueDate(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
